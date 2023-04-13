@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/test-network-function/gradetool/tool"
@@ -14,24 +15,34 @@ var (
 	policy     string
 	OutputPath string
 
-	cResult = &cobra.Command{
-		Use:   "claimscore",
-		Short: "claimscore",
-		RunE:  runClaimScore,
+	grade = &cobra.Command{
+		Use:   "gradetool",
+		Short: "gradetool",
+		RunE:  runGradetool,
 	}
 )
 
 func main() {
-	if err := cResult.Execute(); err != nil {
+	fmt.Println("creating command")
+	NewCommand()
+	fmt.Println("executing command")
+
+	if err := grade.Execute(); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func runClaimScore(cmd *cobra.Command, args []string) error {
+func runGradetool(cmd *cobra.Command, args []string) error {
 	resultsPath := results
 	policyPath := policy
 	outputPath := OutputPath
 
+	// Trim the spaces out of these paths
+	resultsPath = strings.TrimSpace(resultsPath)
+	policyPath = strings.TrimSpace(policyPath)
+	outputPath = strings.TrimSpace(outputPath)
+
+	// Generate the grade
 	err := tool.GenerateGrade(resultsPath, policyPath, outputPath)
 	if err != nil {
 		fmt.Println(err)
@@ -41,29 +52,22 @@ func runClaimScore(cmd *cobra.Command, args []string) error {
 }
 
 func NewCommand() *cobra.Command {
-	cResult.Flags().StringVarP(
-		&results, "results", "r", "",
-		"Path to the input claim.json file",
-	)
-	cResult.Flags().StringVarP(
-		&policy, "policy", "p", "",
-		"Path to the input policy file",
-	)
-	cResult.Flags().StringVarP(
-		&OutputPath, "OutputPath", "o", "",
-		"Path to the output file",
-	)
-	err := cResult.MarkFlagRequired("results")
+	grade.Flags().StringVarP(&results, "results", "r", "", "Path to the input test results file")
+	grade.Flags().StringVarP(&policy, "policy", "p", "", "Path to the input policy file")
+	grade.Flags().StringVarP(&OutputPath, "OutputPath", "o", "", "Path to the output file")
+
+	// Mark required flags
+	err := grade.MarkFlagRequired("results")
 	if err != nil {
 		return nil
 	}
-	err = cResult.MarkFlagRequired("policy")
+	err = grade.MarkFlagRequired("policy")
 	if err != nil {
 		return nil
 	}
-	err = cResult.MarkFlagRequired("OutputPath")
+	err = grade.MarkFlagRequired("OutputPath")
 	if err != nil {
 		return nil
 	}
-	return cResult
+	return grade
 }

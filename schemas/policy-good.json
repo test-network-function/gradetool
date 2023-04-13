@@ -1,0 +1,11 @@
+{
+    "grades": {
+      "gradeName": "good",
+      "requiredPassingTests": [
+        {
+          "id": "affiliated-certification-container-is-certified",
+          "suite": "affiliated-certification"
+        }
+      ]
+    }
+}

@@ -22,7 +22,9 @@ import (
 	"io/ioutil"
 	"path"
 
+	"github.com/test-network-function/gradetool/pkg/jsonschema"
 	"github.com/test-network-function/test-network-function-claim/pkg/claim"
+	"github.com/xeipuuv/gojsonschema"
 )
 
 const (
@@ -30,7 +32,7 @@ const (
 )
 
 var (
-	policySchemaPath = path.Join("schemas", "gradetool-policy-schema.json")
+	policySchemaPath = path.Join("/Users/bpalm/Repositories/go/src/github.com/test-network-function/gradetool", "schemas", "gradetool-policy-schema.json")
 )
 
 // Grade is a single grade object from policy file
@@ -55,13 +57,13 @@ type GradeResult struct {
 
 // GenerateGrade outputs a grade file based on input test results and input grading policy
 func GenerateGrade(resultsPath, policyPath, outputPath string) error {
-	// err := validatePolicySchema(policyPath)
-	// if err != nil {
-	// 	return err
-	// }
+	err := validatePolicySchema(policyPath)
+	if err != nil {
+		return err
+	}
 
 	policyObj := Policy{}
-	err := unmarshalFromFile(policyPath, &policyObj)
+	err = unmarshalFromFile(policyPath, &policyObj)
 	if err != nil {
 		return err
 	}
@@ -111,8 +113,8 @@ func doGrading(policy Policy, results map[string]interface{}) (interface{}, erro
 	for grade != nil {
 		gradeResult := NewGradeResult(grade.GradeName)
 		for _, id := range grade.RequiredPassingTests {
-			resultsKey := generateTestResultsKey(id)
-			results, ok := results[resultsKey]
+			// resultsKey := generateTestResultsKey(id)
+			results, ok := results[id.Id]
 			if !ok {
 				gradeResult.Fail = append(gradeResult.Fail, id)
 				continue
@@ -137,6 +139,18 @@ func doGrading(policy Policy, results map[string]interface{}) (interface{}, erro
 	return gradingOutput, nil
 }
 
+func validatePolicySchema(policyPath string) error {
+	validationResult, err := jsonschema.ValidateJSONFileAgainstSchema(policyPath, policySchemaPath)
+	if err != nil || !validationResult.Valid() {
+		validationErrors := []gojsonschema.ResultError{}
+		if validationResult != nil {
+			validationErrors = validationResult.Errors()
+		}
+		return fmt.Errorf("invalid policy file %s. Error: %s. Parse result: %v", policyPath, err, validationErrors)
+	}
+	return nil
+}
+
 func processTestResults(results interface{}) (bool, error) {
 	pass := false
 	var resultsTyped []interface{}
@@ -151,14 +165,28 @@ func processTestResults(results interface{}) (bool, error) {
 			return pass, fmt.Errorf("the test result object is not of expected type. "+
 				"found: %T. expected: %T", result, resultTyped)
 		}
-		val, ok := resultTyped["passed"]
+		// val, ok := resultTyped["passed"]
+		val, ok := resultTyped["state"]
 		if !ok {
-			return pass, fmt.Errorf("the field 'passed' is missing in test result")
+			return pass, fmt.Errorf("the field 'state' is missing in test result")
 		}
-		pass, ok = val.(bool)
+
+		pass, ok := val.(string)
 		if !ok {
-			return pass, fmt.Errorf("field 'passed' is not of type bool")
+			return false, fmt.Errorf("field 'state' is not of type string")
 		}
+		if pass == "passed" {
+			return true, nil
+		} else if pass == "failed" {
+			return false, nil
+		} else if pass == "skipped" {
+			return false, nil
+		}
+
+		// pass, ok = val.(bool)
+		// if !ok {
+		// 	return pass, fmt.Errorf("field 'state' is not of type bool")
+		// }
 	}
 	return pass, nil
 }
