@@ -3,6 +3,22 @@
       "gradeName": "good",
       "requiredPassingTests": [
         {
+          "id": "access-control-cluster-role-bindings",
+          "suite": "access-control"
+        },
+        {
+          "id": "access-control-container-host-port",
+          "suite": "access-control"
+        },
+        {
+          "id": "access-control-ipc-lock-capability-check",
+          "suite": "access-control"
+        },
+        {
+          "id": "access-control-namespace",
+          "suite": "access-control"
+        },
+        {
           "id": "affiliated-certification-container-is-certified",
           "suite": "affiliated-certification"
         }
