@@ -23,10 +23,8 @@ var (
 )
 
 func main() {
-	fmt.Println("creating command")
+	// Build command
 	NewCommand()
-	fmt.Println("executing command")
-
 	if err := grade.Execute(); err != nil {
 		log.Fatal(err)
 	}
@@ -48,6 +46,15 @@ func runGradetool(cmd *cobra.Command, args []string) error {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+
+	// read the output file and display to user
+	outFile, err := os.ReadFile(outputPath)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	outFileString := string(outFile)
+	fmt.Println(outFileString)
 	return nil
 }
 

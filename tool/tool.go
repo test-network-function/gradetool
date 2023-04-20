@@ -32,7 +32,7 @@ const (
 )
 
 var (
-	policySchemaPath = path.Join("/Users/bpalm/Repositories/go/src/github.com/test-network-function/gradetool", "schemas", "gradetool-policy-schema.json")
+	policySchemaPath = path.Join("schemas", "gradetool-policy-schema.json")
 )
 
 // Grade is a single grade object from policy file
