@@ -16,3 +16,6 @@ build-image-local:
 	docker build --no-cache \
 		-t ${REGISTRY}/${TNF_IMAGE_NAME}:${IMAGE_TAG} \
 		-f Dockerfile .
+
+test:
+	go test -v ${GO_PACKAGES}
