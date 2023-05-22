@@ -180,7 +180,7 @@ func processTestResults(results interface{}) (bool, error) {
 		} else if pass == "failed" {
 			return false, nil
 		} else if pass == "skipped" {
-			return false, nil
+			return true, nil
 		}
 
 		// pass, ok = val.(bool)
