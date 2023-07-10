@@ -3,6 +3,7 @@ BINARY_NAME=gradetool
 REGISTRY?=quay.io
 TNF_IMAGE_NAME?=testnetworkfunction/gradetool
 IMAGE_TAG?=latest
+GOLANGCI_VERSION=v1.53.3
 
 .PHONY: build
 
@@ -19,3 +20,9 @@ build-image-local:
 
 test:
 	go test -v ${GO_PACKAGES}
+
+lint: 
+	golangci-lint run --timeout 10m0s
+
+install-lint:
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@${GOLANGCI_VERSION}

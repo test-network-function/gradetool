@@ -30,7 +30,7 @@ func main() {
 	}
 }
 
-func runGradetool(cmd *cobra.Command, args []string) error {
+func runGradetool(_ *cobra.Command, _ []string) error {
 	resultsPath := results
 	policyPath := policy
 	outputPath := OutputPath
