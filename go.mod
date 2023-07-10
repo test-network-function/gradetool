@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/spf13/cobra v1.7.0
-	github.com/test-network-function/test-network-function-claim v1.0.19
+	github.com/test-network-function/test-network-function-claim v1.0.21
 	github.com/xeipuuv/gojsonschema v1.2.0
 )
 
