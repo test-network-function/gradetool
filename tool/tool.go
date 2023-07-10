@@ -19,7 +19,7 @@ package tool
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path"
 
 	"github.com/test-network-function/gradetool/pkg/jsonschema"
@@ -100,10 +100,6 @@ func NewGradeResult(gradeName string) GradeResult {
 	return GradeResult{gradeName, false, emptySlice, emptySlice}
 }
 
-func generateTestResultsKey(id claim.Identifier) string {
-	return fmt.Sprintf("{\"id\":\"%s\",\"suite\":\"%s\"}", id.Id, id.Suite)
-}
-
 func doGrading(policy Policy, results map[string]interface{}) (interface{}, error) {
 	gradingOutput := []GradeResult{}
 
@@ -113,7 +109,6 @@ func doGrading(policy Policy, results map[string]interface{}) (interface{}, erro
 	for grade != nil {
 		gradeResult := NewGradeResult(grade.GradeName)
 		for _, id := range grade.RequiredPassingTests {
-			// resultsKey := generateTestResultsKey(id)
 			results, ok := results[id.Id]
 			if !ok {
 				gradeResult.Fail = append(gradeResult.Fail, id)
@@ -165,7 +160,7 @@ func processTestResults(results interface{}) (bool, error) {
 			return pass, fmt.Errorf("the test result object is not of expected type. "+
 				"found: %T. expected: %T", result, resultTyped)
 		}
-		// val, ok := resultTyped["passed"]
+
 		val, ok := resultTyped["state"]
 		if !ok {
 			return pass, fmt.Errorf("the field 'state' is missing in test result")
@@ -175,18 +170,15 @@ func processTestResults(results interface{}) (bool, error) {
 		if !ok {
 			return false, fmt.Errorf("field 'state' is not of type string")
 		}
-		if pass == "passed" {
+
+		switch pass {
+		case "passed":
 			return true, nil
-		} else if pass == "failed" {
+		case "failed":
 			return false, nil
-		} else if pass == "skipped" {
+		case "skipped":
 			return true, nil
 		}
-
-		// pass, ok = val.(bool)
-		// if !ok {
-		// 	return pass, fmt.Errorf("field 'state' is not of type bool")
-		// }
 	}
 	return pass, nil
 }
@@ -196,7 +188,7 @@ func generateOutput(outputObj interface{}, outputPath string) error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(outputPath, outputBytes, outputFilePermissions)
+	err = os.WriteFile(outputPath, outputBytes, outputFilePermissions)
 	if err != nil {
 		return err
 	}
@@ -219,7 +211,7 @@ func validatePolicy(policyObj *Policy) error {
 }
 
 func unmarshalFromFile(jsonPath string, obj interface{}) error {
-	jsonBytes, err := ioutil.ReadFile(jsonPath)
+	jsonBytes, err := os.ReadFile(jsonPath)
 	if err != nil {
 		return err
 	}
