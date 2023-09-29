@@ -35,5 +35,9 @@ COPY . ${TNF_SRC_DIR}
 WORKDIR ${TNF_SRC_DIR}
 RUN make build
 
-# Run the application
+# Copy the app into an empty ubi minimal image.
+FROM registry.access.redhat.com/ubi8-minimal:8.8-1072
+ENV TNF_SRC_DIR=/usr/tnf
+RUN mkdir ${TNF_SRC_DIR}
+COPY --from=build  ${TNF_SRC_DIR}/gradetool ${TNF_SRC_DIR}
 ENTRYPOINT ["/usr/tnf/gradetool"]
