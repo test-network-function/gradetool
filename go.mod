@@ -1,10 +1,10 @@
 module github.com/test-network-function/gradetool
 
-go 1.21
+go 1.21.1
 
 require (
 	github.com/spf13/cobra v1.7.0
-	github.com/test-network-function/test-network-function-claim v1.0.25
+	github.com/test-network-function/test-network-function-claim v1.0.27
 	github.com/xeipuuv/gojsonschema v1.2.0
 )
 
