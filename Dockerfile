@@ -39,5 +39,9 @@ RUN make build
 FROM registry.access.redhat.com/ubi8-minimal:8.8-1072
 ENV TNF_SRC_DIR=/usr/tnf
 RUN mkdir ${TNF_SRC_DIR}
-COPY --from=build  ${TNF_SRC_DIR}/gradetool ${TNF_SRC_DIR}
-ENTRYPOINT ["/usr/tnf/gradetool"]
+
+COPY --from=build ${TNF_SRC_DIR}/schemas ${TNF_SRC_DIR}/schemas
+COPY --from=build ${TNF_SRC_DIR}/gradetool ${TNF_SRC_DIR}
+
+WORKDIR ${TNF_SRC_DIR}
+ENTRYPOINT ["./gradetool"]
