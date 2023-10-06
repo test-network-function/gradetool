@@ -1,6 +1,6 @@
 module github.com/test-network-function/gradetool
 
-go 1.21.1
+go 1.21.2
 
 require (
 	github.com/spf13/cobra v1.7.0
