@@ -31,6 +31,10 @@ const (
 	outputFilePermissions = 420
 )
 
+const (
+	foundExpected = "found: %T. expected: %T"
+)
+
 var (
 	policySchemaPath = path.Join("schemas", "gradetool-policy-schema.json")
 )
@@ -152,13 +156,13 @@ func processTestResults(results interface{}) (bool, error) {
 	resultsTyped, ok := results.([]interface{})
 	if !ok {
 		return pass, fmt.Errorf("the test results object is not of expected type. "+
-			"found: %T. expected: %T", results, resultsTyped)
+			foundExpected, results, resultsTyped)
 	}
 	for _, result := range resultsTyped {
 		resultTyped, ok := result.(map[string]interface{})
 		if !ok {
 			return pass, fmt.Errorf("the test result object is not of expected type. "+
-				"found: %T. expected: %T", result, resultTyped)
+				foundExpected, result, resultTyped)
 		}
 
 		val, ok := resultTyped["state"]
