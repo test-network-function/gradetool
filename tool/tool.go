@@ -152,38 +152,26 @@ func validatePolicySchema(policyPath string) error {
 
 func processTestResults(results interface{}) (bool, error) {
 	pass := false
-	var resultsTyped []interface{}
-	resultsTyped, ok := results.([]interface{})
+	resultTyped, ok := results.(map[string]interface{})
 	if !ok {
-		return pass, fmt.Errorf("the test results object is not of expected type. "+
-			foundExpected, results, resultsTyped)
+		return pass, fmt.Errorf("the test result object is not of expected type. "+
+			foundExpected, results, resultTyped)
 	}
-	for _, result := range resultsTyped {
-		resultTyped, ok := result.(map[string]interface{})
-		if !ok {
-			return pass, fmt.Errorf("the test result object is not of expected type. "+
-				foundExpected, result, resultTyped)
-		}
 
-		val, ok := resultTyped["state"]
-		if !ok {
-			return pass, fmt.Errorf("the field 'state' is missing in test result")
-		}
-
-		pass, ok := val.(string)
-		if !ok {
-			return false, fmt.Errorf("field 'state' is not of type string")
-		}
-
-		switch pass {
-		case "passed":
-			return true, nil
-		case "failed":
-			return false, nil
-		case "skipped":
-			return true, nil
-		}
+	val, ok := resultTyped["state"]
+	if !ok {
+		return pass, fmt.Errorf("the field 'state' is missing in test result")
 	}
+
+	switch val.(string) {
+	case "passed":
+		return true, nil
+	case "failed":
+		return false, nil
+	case "skipped":
+		return true, nil
+	}
+
 	return pass, nil
 }
 
