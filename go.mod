@@ -4,7 +4,7 @@ go 1.21.5
 
 require (
 	github.com/spf13/cobra v1.8.0
-	github.com/test-network-function/test-network-function-claim v1.0.31
+	github.com/test-network-function/test-network-function-claim v1.0.32
 	github.com/xeipuuv/gojsonschema v1.2.0
 )
 
