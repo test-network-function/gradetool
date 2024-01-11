@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.9-1028 AS build
+FROM registry.access.redhat.com/ubi8/ubi:8.9-1107 AS build
 ENV TNF_SRC_DIR=/usr/tnf
 
 # Install dependencies
