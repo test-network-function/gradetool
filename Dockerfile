@@ -36,7 +36,7 @@ WORKDIR ${TNF_SRC_DIR}
 RUN make build
 
 # Copy the app into an empty ubi minimal image.
-FROM registry.access.redhat.com/ubi8-minimal:8.9-1108
+FROM registry.access.redhat.com/ubi8-minimal:8.9-1108.1705420507
 ENV TNF_SRC_DIR=/usr/tnf
 RUN mkdir ${TNF_SRC_DIR}
 
