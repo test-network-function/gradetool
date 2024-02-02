@@ -3,7 +3,7 @@ BINARY_NAME=gradetool
 REGISTRY?=quay.io
 TNF_IMAGE_NAME?=testnetworkfunction/gradetool
 IMAGE_TAG?=latest
-GOLANGCI_VERSION=v1.55.1
+GOLANGCI_VERSION=v1.55.2
 
 .PHONY: build
 
