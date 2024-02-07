@@ -1,4 +1,4 @@
-FROM golang:1.21.6-alpine AS builder
+FROM golang:1.22.0-alpine AS builder
 ENV TNF_SRC_DIR=/usr/tnf
 RUN apk add --no-cache make~=4.4.1
 COPY . ${TNF_SRC_DIR}
