@@ -15,8 +15,8 @@ github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
-github.com/test-network-function/test-network-function-claim v1.0.34 h1:OoCvKueaOlKL6n4BSQaDkIsYe0usaXy9dSJZjEY1Qqc=
-github.com/test-network-function/test-network-function-claim v1.0.34/go.mod h1:Ao6lfuE9dyLes3z3g3vpQttZFBuPHWoOQUK1YqAMM2c=
+github.com/test-network-function/test-network-function-claim v1.0.35 h1:HwrIOoYtNM4SnwhRZ7MTARNYX7cbApqu1ps/tOddyXE=
+github.com/test-network-function/test-network-function-claim v1.0.35/go.mod h1:IMTL6iN2QUqU67DLa5dCGVgWeRnoBuZG+gT0snezFqI=
 github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f/go.mod h1:N2zxlSyiKSe5eX1tZViRH5QA0qijqEDrYZiPEAiq3wU=
 github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb h1:zGWFAtiMcyryUHoUjUJX0/lt1H2+i2Ka2n+D3DImSNo=
 github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb/go.mod h1:N2zxlSyiKSe5eX1tZViRH5QA0qijqEDrYZiPEAiq3wU=
